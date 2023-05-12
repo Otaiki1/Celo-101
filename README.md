@@ -42,17 +42,23 @@ The following is not required, but extremely useful:
 ## Building the "Buy me a Drink " System
 
 Open your terminal and create a new directory
-```
+`
 mkdir BuyMeADrink-system
 cd BuyMeADrink-system
-
+`
 Inside this directory, we want to initialize a hardhat project 
 
 - First we install hardhat
-``` npm install --save-dev hardhat```
+`npm install --save-dev hardhat`
+
+![Result of npm install!](./images/npmInstall.png)
+
 
 - Then we create a sample project 
-``` npx hardhat```
+`npx hardhat`
+
+![Result of npx hardhat!](./images/npxHardhat.png)
+
 
 You should then see a welcome message and options on what you can do. Select `Create a JavaScript project:`
 
@@ -61,7 +67,7 @@ Agree to all the defaults (project root, adding a .gitignore, and installing all
 Hardhat will then generate a hardhat.config.js file for us along with a couple of folders with sample code we can work with, including contracts, scripts, and test.
 
 To check if everything works properly, run:
- ```npx hardhat test```
+ `npx hardhat test`
 
 We now have our hardhat development environment successfully configured.
 
