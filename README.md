@@ -42,10 +42,10 @@ The following is not required, but extremely useful:
 ## Building the "Buy me a Drink " System
 
 Open your terminal and create a new directory
-`
-mkdir BuyMeADrink-system
-cd BuyMeADrink-system
-`
+
+- `mkdir BuyMeADrink-system`
+- `cd BuyMeADrink-system`
+
 Inside this directory, we want to initialize a hardhat project 
 
 - First we install hardhat
@@ -81,7 +81,7 @@ You can then open the folder with vscode and you will have a set of files/folder
 
 - - we will write deploy logic
 - - example `buy-drink` script
-- - and a `withdraw` script to cash out our tips
+- - and a `withdraw` script to cash out our funds
 
 - `hardhat.config.js`
 - - configuration file with settings for solidity version and deployment
@@ -119,7 +119,7 @@ contract BuyMeADrink {
     // we can withdraw to this address later.
     address payable owner;
 
-    // List of all Notes received from coffee purchases.
+    // List of all Notes received from drink purchases.
     Note[] notes;
 
     constructor() {
@@ -136,7 +136,7 @@ contract BuyMeADrink {
     }
 
     /**
-     * @dev buy a drink for owner (sends an ETH tip and leaves a memo)
+     * @dev buy a drink for owner (sends the amount for the drink and leaves a memo)
      * @param _name name of the drinks purchaser
      * @param _message a nice message from the purchaser, might include name of drink
      */
@@ -180,17 +180,17 @@ Now, let's break down the code:
 
 - The `owner` variable stores the address of the contract deployer. It is marked as payable so that funds can be withdrawn to this address later.
 
-- The `notes` array holds all the notes received from coffee purchases.
+- The `notes` array holds all the notes received from drink purchases.
 
 - The constructor function is executed when the contract is deployed. It initializes the owner variable with the address of the deployer.
 
 - The `getNotes` function is a public view function that returns an array of all the stored notes.
 
-- The `buyDrink` function allows users to buy a coffee for the contract owner by sending ETH as a tip and leaving a memo. It requires the sent value to be greater than 0 ETH. The function adds the note to the notes array and emits a NewNote event with the note details.
+- The `buyDrink` function allows users to buy a drink for the contract owner by sending the amount for the drink and leaving a note. It requires the sent value to be greater than 0 ETH. The function adds the note to the notes array and emits a NewNote event with the note details.
 
 - The `withdrawFunds` function allows the owner to withdraw the entire balance stored in the contract. It ensures that only the owner can call this function and transfers the contract's balance to the owner's address.
 
-This contract enables users to buy a drink for the contract owner, leaving a memo along with their purchase. The owner can later withdraw the accumulated tips.
+This contract enables users to buy a drink for the contract owner, leaving a memo along with their purchase. The owner can later withdraw the accumulated funds.
 
 Armed with this smart contract code, we can now write a script to test our logic!
 
@@ -217,7 +217,7 @@ async function printBalances(addresses) {
   }
 }
 
-// Logs the notes stored on-chain from coffee purchases.
+// Logs the notes stored on-chain from drink purchases.
 async function printNotes(notes) {
   for (const note of notes) {
     const timestamp = note.timestamp;
@@ -242,22 +242,22 @@ async function main() {
   await buyMeADrink.deployed();
   console.log("BuyMeADrink deployed to:", buyMeADrink.address);
 
-  // Check balances before the coffee purchase.
+  // Check balances before the drink purchase.
   const addresses = [owner.address, buyer.address, buyMeADrink.address];
   console.log("== start ==");
   await printBalances(addresses);
 
-  // Buy the owner a few coffees.
-  const tip = { value: hre.ethers.utils.parseEther("1") };
+  // Buy the owner a few drinks.
+  const fund = { value: hre.ethers.utils.parseEther("1") };
   await buyMeADrink
     .connect(buyer)
-    .buyDrink("Trisha", "You're the best!, get a coffee", tip);
+    .buyDrink("Trisha", "You're the best!, get a coffee", fund);
   await buyMeADrink
     .connect(buyer2)
-    .buyDrink("Samuel", "Amazing teacher, get a whiskey", tip);
+    .buyDrink("Samuel", "Amazing teacher, get a whiskey", fund);
   await buyMeADrink
     .connect(buyer3)
-    .buyDrink("Kuyet", "I love my Proof of Knowledge, get a cocaCola", tip);
+    .buyDrink("Kuyet", "I love my Proof of Knowledge, get a cocaCola", fund);
 
   // Check balances after the drink purchase.
   console.log("== bought drink ==");
@@ -326,9 +326,9 @@ You should see the output in your terminal like this
 
 - At the start of the script (right after contract deploy), note that the 0 address has 9999.99877086625 ETH. This is because it started with 10k ETH as one of the pre-populated hardhat addresses, but it had to spend a tiny amount to deploy to the local blockchain.
 
-- In the second step == bought drink ==, Address 1 purchases one coffee. Two other wallets that are not shown ALSO purchase coffees. In total, 3 coffees were purchased for a total tip amount of 3.0 ETH. You can see that Address 2 (which represents the contract address), is holding on to 3.0 ETH.
+- In the second step == bought drink ==, Address 1 purchases one drink. Two other wallets that are not shown ALSO purchase drinks. In total, 3 drinks were purchased for a total amount of 3.0 . You can see that Address 2 (which represents the contract address), is holding on to 3.0 ETH.
 
-- After the withdrawFunds() function is called in == withdrawTips ==, the contract goes back down to 0 ETH, and the original deployer, aka Address 0, has now earned some money and is sitting on 10002.998724967892122376 ETH.
+- After the withdrawFunds() function is called in == withdrawFunds ==, the contract goes back down to 0 ETH, and the original deployer, aka Address 0, has now earned some money and is sitting on 10002.998724967892122376 ETH.
 
 ## Deploy your BuyMeADrink.sol smart contract locally using hardhat
 
@@ -416,4 +416,4 @@ Once you've successfully completed the steps outlined above and verified that yo
 
 ## Conclusion
 
-This article shows you how to create smart contracts using Solidity and how to use Remix ide to deploy them to the Celo blockchain. We went over the fundamentals of Solidity smart contracts, used hardhat to deploy and test it . Follow the tutorials and build on it so you can expand your knowledge.
+This article shows you how to create smart contracts using Solidity and how to use Remix ide to deploy them to the Celo blockchain. We went over the fundamentals of Solidity smart contracts, used hardhat to deploy and test it . Follow the tutorials and build on it so you can expand your knowledge. You can find the finished project [here](./BuyMeADrink-contract/)
