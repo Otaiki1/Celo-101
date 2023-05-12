@@ -1,14 +1,19 @@
+# How to Build a 'Buy Me a Drink' Smart Contract on Celo Blockchain: A Step-by-Step Guide for Beginners
+
 ## Introduction
 
-A common concept called Buy Me A Drink is used by different types of professionals to make landing pages where visitors can donate money as a thank you for their work. But you need to have a bank account and a credit card to use it. People might not have this , The blockchain solves this and with the Celo blockchain , this can be a pretty seamless process.
+A common concept known as "Buy Me a Drink" is utilized by various professionals to create landing pages where visitors can donate money as a way of showing appreciation for their work. However, this process requires users to have a bank account and a credit card, which some may not possess. Fortunately, the blockchain provides a solution, and the Celo blockchain offers a seamless process for this purpose.
 
-In this tutorial, we'll go through the process of building a smart contract that handles the "Buy Me a Drink" process on the Celo blockchain. The contract will allow users to send funds for purchasing drinks to the professionals , and at the same time allow the professionals to withdraw this funds,  all powered by smart contracts. Don't worry if you're new to blockchain technology or programming – all the steps will be explained throughly as we build .
+This tutorial aims to guide readers through the process of creating a smart contract on the Celo blockchain to manage the "Buy Me a Drink" process. This smart contract will facilitate the transfer of funds from users to professionals to purchase drinks, and professionals can withdraw these funds. All of this will be powered by smart contracts. Even if you are new to blockchain technology or programming, do not worry as we will explain all of the steps in detail throughout the tutorial.
 
-### The blockchain: What is it?
+## Objective
+The objective of this tutorial is to guide you in building a smart contract on the Celo blockchain that allows visitors to donate funds to professionals as a token of appreciation, without the need for a bank account or credit card. The smart contract will enable a seamless process for sending and receiving funds, all powered by blockchain technology. By the end of this tutorial, you will have a clear understanding of how to create smart contracts on the Celo blockchain and how they can be used to facilitate financial transactions in a secure and transparent manner.
 
-The blockchain is a decentralized, immutable ledger that makes it easier to track assets and record transactions in a corporate network. An asset might be physical (a house, car, money, or piece of land) or intangible (patents, copyrights, branding, and intellectual property). On a blockchain network, practically anything of value may be recorded and traded, lowering risk and increasing efficiency for all parties.
+### Blockchain: What is it?
 
-### Solidity : What is it ?
+Blockchain is a decentralized, immutable ledger that makes it easier to track assets and record transactions in a corporate network. An asset might be physical (a house, car, money, or piece of land) or intangible (patents, copyrights, branding, and intellectual property). On a blockchain network, practically anything of value may be recorded and traded, lowering risk and increasing efficiency for all parties.
+
+### Solidity : What is it?
 
 When it is mentioned that smart contracts can be written on Ethereum, it is without thought that we automatically assume that there should be a programming language backing this writing operation . The programming language backing these smart contracts is Solidity.
 
@@ -16,7 +21,7 @@ Solidity is an object-oriented programming language that was created by the Ethe
 
 The programming language Solidity is statically typed and intended for creating smart contracts that execute on the Ethereum Virtual Machine. With the help of this language, programmers may create applications that use smart contracts to provide self-enforcing business logic. 
 
-### The Celo blockchain: what is it?
+### The Celo blockchain: What is it?
 
 A robust new digital economy is being led by the blockchain ecosystem Celo, which is carbon-neutral, mobile-first, and EVM compatible. A technology called Celo blockchain was created to enable quick cryptocurrency transactions for mobile users all around the world. The platform contains a native coin called CELO and its own blockchain.
 
@@ -91,7 +96,7 @@ You'll notice that there are a number of files already auto-generated via the Ha
 1. Rename the contract file to BuyMeADrink.sol
 2. Replace the contract code with the following:
 
-```=solidity 
+```solidity 
 //SPDX-License-Identifier: Unlicense
 
 // contracts/BuyMeADrink.sol
@@ -164,7 +169,7 @@ contract BuyMeADrink {
     /**
      * @dev send the entire balance stored in this contract to the owner
      */
-    function withdrawFunds() public {
+    function withdrawFunds() public payable {
         //ensure only owner can call function
         require(msg.sender == owner);
         require(owner.send(address(this).balance));
